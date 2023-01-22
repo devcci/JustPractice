@@ -15,9 +15,15 @@ public class TestController {
         this.testService = testService;
     }
 
-    @GetMapping("/test")
+    @GetMapping("/test/db/mybatis")
     public ResponseEntity<String> getTest() {
         List<String> temp = testService.getTest();
+        return ResponseEntity.ok(temp.toString());
+    }
+
+    @GetMapping("/test/db/jpa")
+    public ResponseEntity<String> getTest2() {
+        List<String> temp = testService.getTest2();
         return ResponseEntity.ok(temp.toString());
     }
 }

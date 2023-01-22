@@ -1,9 +1,9 @@
 spring:
   datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://${db.url:localhost}:${db.port:3306:null}/${db.scheme:null}?serverTimezone=Asia/Seoul
-    username: ${db.user:null}
-    password: ${db.pass:null}
+    driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+    url: jdbc:log4jdbc:h2:file:./testdb;MODE=MySQL;AUTO_SERVER=TRUE
+    username: sa
+    password:
     hikari:
       maximum-pool-size: 20
       pool-name: SpringBootHikariCP
@@ -12,6 +12,17 @@ spring:
   devtools:
     livereload:
       enabled: false
+  sql:
+    init:
+      mode: always
+  jpa:
+    properties:
+      hibernate:
+        ddl-auto: none
+#        show_sql: true  # sql 쿼리를 보여줍니다.
+#        format_sql: true  # sql query formatting
+#        use_sql_comments: true  # sql 쿼리의 추가정보를 보여줍니다.
+    database-platform: org.hibernate.dialect.H2Dialect
 
 mybatis:
   configuration:
@@ -20,5 +31,25 @@ mybatis:
 
 logging:
   level:
-    com.zaxxer.hikari.HikariConfig: INFO #DEBUG
-    com.zaxxer.hikari: INFO #TRACE
+    com:
+      zaxxer:
+        hikari:
+            HikariConfig: INFO #DEBUG
+            HikariPool: INFO #TRACE
+    javax:
+      sql:
+        DataSource: OFF
+    jdbc:
+      audit: OFF
+      resultset: OFF
+      resultsettable: INFO  #SQL 결과 데이터 Table을 로그로 남긴다.
+      sqlonly: OFF     #SQL만 로그로 남긴다.
+      sqltiming: INFO    #SQL과 소요시간을 표기한다.
+      connection : OFF  # 커넥션 확인가능
+    org:
+#      hibernate:
+#        SQL: DEBUG
+#        type:
+#          descriptor:
+#            sql:
+#              BasicBinder: TRACE

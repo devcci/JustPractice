@@ -5,6 +5,6 @@
 <mapper namespace="edu.devcci.justpractice.mapper.TestMapper">
     <select id="selectTest" resultType="String">
         SELECT *
-        FROM test
+        FROM TEST_USER
     </select>
 </mapper>
