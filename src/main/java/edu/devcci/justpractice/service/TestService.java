@@ -1,7 +1,8 @@
 package edu.devcci.justpractice.service;
 
-import edu.devcci.justpractice.domain.model.User;
-import edu.devcci.justpractice.domain.repository.UserRepository;
+import edu.devcci.justpractice.domain.model.Board;
+import edu.devcci.justpractice.domain.repository.BoardRepository;
+import edu.devcci.justpractice.dto.BoardDto;
 import edu.devcci.justpractice.mapper.TestMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,12 +13,12 @@ import java.util.stream.Collectors;
 @Service
 public class TestService {
     private final TestMapper testMapper;
-    private final UserRepository userRepository;
+    private final BoardRepository boardRepository;
 
     @Autowired
-    public TestService(TestMapper testMapper, UserRepository userRepository) {
+    public TestService(TestMapper testMapper, BoardRepository boardRepository) {
         this.testMapper = testMapper;
-        this.userRepository = userRepository;
+        this.boardRepository = boardRepository;
     }
 
     public List<String> getTest() {
@@ -25,7 +26,18 @@ public class TestService {
     }
 
     public List<String> getTest2() {
-        List<User> userList = userRepository.findAll();
-        return userList.stream().map(User::getId).collect(Collectors.toList());
+        List<Board> boardList = boardRepository.findAll();
+
+        List<BoardDto> boardDtoList = boardList.stream()
+                .map(board -> BoardDto.builder()
+                        .id(board.getId())
+                        .title(board.getTitle())
+                        .content(board.getContent())
+                        .userId(board.getUser().getId())
+                        .build()).collect(Collectors.toList()
+                );
+        return boardDtoList.stream()
+                .map(BoardDto::getTitle)
+                .collect(Collectors.toList());
     }
 }
