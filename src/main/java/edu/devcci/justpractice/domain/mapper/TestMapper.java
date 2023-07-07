@@ -1,4 +1,4 @@
-package edu.devcci.justpractice.mapper;
+package edu.devcci.justpractice.domain.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
 
